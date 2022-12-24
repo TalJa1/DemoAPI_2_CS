@@ -1,3 +1,5 @@
+using Demo.BusinessTier.Services;
+using Demo.BusinessTier.Services.Implements;
 using Demo.DataTier.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,9 +11,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Package management console
+//cd Project.Data (folder dataTier)
+//dotnet ef --startup-project ../Project.Api/ migrations add Initial (change Project.API to Demo.API)
 builder.Services.AddDbContext<DemoDbContext>(option =>
-    option.UseSqlServer(builder.Configuration.GetConnectionString("DemoConnectionString"), 
-        b => b.MigrationsAssembly("Demo.API")));
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DemoConnectionString")));
+//Create instance of Service
+builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
