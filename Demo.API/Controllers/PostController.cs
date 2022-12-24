@@ -24,7 +24,7 @@ namespace Demo.API.Controllers
             try
             {
                 List<Post> posts = await _postService.GetPosts();
-                if (posts != null)
+                if (posts.Count > 0)
                 {
                     return Ok(new
                     {
@@ -34,7 +34,11 @@ namespace Demo.API.Controllers
                 }
                 else
                 {
-                    return NotFound();
+                    return NotFound(new
+                    {
+                        Message = "Empty list",
+                        StatusCode = 404,
+                    });
                 }
             }
             catch(Exception ex)
